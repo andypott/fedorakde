@@ -1,0 +1,37 @@
+#!/bin/bash
+# Set hostname
+if [ -z $1 ]; then
+    echo "No hostname provided"
+    exit
+fi
+sudo hostnamectl hostname $1
+
+# Add microsoft key for vscode
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+
+# Remove firefox - will use flatpak instead
+sudo dnf remove firefox
+sudo dnf update --refresh --assumeyes
+sudo dnf install --assumeyes $(cat ./pkgs)
+
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+sudo flatpak remote-modify --enable flathub
+
+# Copy system config files
+sudo rsync -rv ./system/ /
+
+# Enable systemd services
+# This assumes /etc/rpm-ostreed.conf has been updated (which it should have been when config files were copied)
+sudo systemctl enable sshd
+
+if [ "$1" == "ultra24" ]; then
+    sudo systemctl enable var-mnt-data.mount
+fi
+
+# Add udev rules for steam
+git clone https://github.com/ValveSoftware/steam-devices /tmp/steam-devices
+sudo cp /tmp/steam-devices/*.rules /etc/udev/rules.d/.
+rm -rf /tmp/steam-devices
+
+# set system clock to utc - fedora sets the rtc to local when windows is installed
+timedatectl set-local-rtc 0

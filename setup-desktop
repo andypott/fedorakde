@@ -1,0 +1,59 @@
+#!/bin/bash
+
+add_flatpaks() {
+    flatpak install flathub\
+        org.mozilla.firefox\
+        org.videolan.VLC\
+        com.valvesoftware.Steam\
+        org.freedesktop.Platform.ffmpeg-full\
+        org.zealdocs.Zeal
+    
+    flatpak override --user --socket=wayland --env=MOZ_ENABLE_WAYLAND=1 org.mozilla.firefox
+}
+
+dot_dirs="./home"
+
+create_dirs() {
+    for dir in $dot_dirs; do
+        if [ -d "$dir" ]; then
+            pushd $dir
+                to_create=$(find . -mindepth 1 -type d -printf "%P ")
+                for d in $to_create; do
+                    mkdir -p "$HOME/$d"
+                done
+            popd
+        fi
+    done
+}
+
+create_links() {
+    for dir in $dot_dirs; do
+        if [ -d "$dir" ]; then
+            pushd $dir
+                to_create=$(find . -mindepth 1 -type f -printf "%P ")
+                for d in $to_create; do
+                    ln -sf "$(pwd)/$d" "$HOME/$d"
+                done
+            popd
+        fi
+    done
+}
+
+get_fonts() {
+    mkdir -p ~/.local/share/fonts
+
+    if [ ! -f ~/.local/share/fonts/SymbolsNerdFont-Regular.ttf ]; then
+        wget -o /dev/null -O ~/.local/share/fonts/SymbolsNerdFont-Regular.ttf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/NerdFontsSymbolsOnly/SymbolsNerdFont-Regular.ttf?raw=true
+    fi
+
+    if [ ! -f ~/.local/share/fonts/SymbolsNerdFontMono-Regular.ttf ]; then
+        wget -o /dev/null -O ~/.local/share/fonts/SymbolsNerdFontMono-Regular.ttf https://github.com/ryanoasis/nerd-fonts/blob/master/patched-fonts/NerdFontsSymbolsOnly/SymbolsNerdFontMono-Regular.ttf?raw=true
+    fi
+
+    fc-cache -f
+}
+
+add_flatpaks
+create_dirs
+create_links
+get_fonts
