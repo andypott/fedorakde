@@ -29,6 +29,7 @@ require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 lsp.setup()
 
 local cmp = require("cmp")
+local cmp_action = require("lsp-zero").cmp_action()
 cmp.setup({
 	sources = {
 		{ name = "path" },
@@ -39,5 +40,7 @@ cmp.setup({
 	},
 	mapping = {
 		["<CR>"] = cmp.mapping.confirm({ select = false }),
+		["C-b"] = cmp_action.luasnip_jump_backward(),
+		["C-f"] = cmp_action.luasnip_jump_forward(),
 	},
 })
