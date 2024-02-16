@@ -26,6 +26,7 @@ lsp.ensure_installed({
 })
 
 require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
+require("lspconfig").clangd.setup({ cmd = { "clangd", "-header-insertion=never" } })
 lsp.setup()
 
 local cmp = require("cmp")
