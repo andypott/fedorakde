@@ -6,4 +6,12 @@ require("telescope").setup({
 			"^node_modules/",
 		},
 	},
+	pickers = {
+		find_files = {
+			follow = true,
+		},
+		live_grep = {
+			additional_args = { "-L" },
+		},
+	},
 })
