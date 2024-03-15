@@ -7,9 +7,19 @@ return {
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		},
 		config = function()
-			require("telescope").load_extension("fzf")
-			require("telescope").setup({
+			local telescope = require("telescope")
+			telescope.load_extension("fzf")
+
+			local telescope_actions = require("telescope.actions")
+
+			telescope.setup({
 				defaults = {
+					mappings = {
+						i = {
+							["<C-j>"] = telescope_actions.move_selection_next,
+							["<C-k>"] = telescope_actions.move_selection_previous,
+						},
+					},
 					file_ignore_patterns = {
 						"^target/",
 						"^node_modules/",
