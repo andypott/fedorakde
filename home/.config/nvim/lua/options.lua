@@ -15,9 +15,4 @@ vim.opt.hidden = true -- allow buffers to remain open in background with unsaved
 vim.opt.number = true -- enable line numbers
 vim.opt.signcolumn = "number" -- show diag errors in the number column (saves on width)
 vim.opt.relativenumber = true
-
-vim.opt.termguicolors = true
-vim.opt.background = "dark"
-vim.g.gruvbox_material_background = "hard"
-vim.g.gruvbox_material_foreground = "original"
-vim.cmd.colorscheme("gruvbox-material")
+vim.opt.splitright = true

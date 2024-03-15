@@ -25,6 +25,8 @@ jetbrains-mono-fonts-all
 jq
 kid3
 libdav1d
+lua
+luarocks
 neovim
 nodejs
 openssh-server

@@ -17,6 +17,7 @@ declare -a paths=(
     "$HOME/.cargo/bin"
     "$HOME/go/bin"
     "$HOME/.config/composer/vendor/bin"
+    "$HOME/.luarocks/bin"
 )
 
 for p in "${paths[@]}"; do
