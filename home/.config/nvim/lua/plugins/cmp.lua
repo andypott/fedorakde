@@ -32,20 +32,20 @@ return {
 					i = cmp.mapping.select_prev_item({ behavior = types.cmp.SelectBehavior.Select }),
 				},
 				["<Tab>"] = {
-					i = function()
+					i = function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item({ behavior = types.cmp.SelectBehavior.Insert })
 						else
-							cmp.complete()
+							fallback()
 						end
 					end,
 				},
 				["<S-Tab>"] = {
-					i = function()
+					i = function(fallback)
 						if cmp.visible() then
 							cmp.select_prev_item({ behavior = types.cmp.SelectBehavior.Insert })
 						else
-							cmp.complete()
+							fallback()
 						end
 					end,
 				},
